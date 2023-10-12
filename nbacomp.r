@@ -1,0 +1,1 @@
+seasonStats = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/all_seasons.csv")
