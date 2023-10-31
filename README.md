@@ -3,4 +3,4 @@ Dylan Huynh
 Sebastian Tadeo
 Nicholas Yamamoto
 
-Nba Dataset
+Global energy substitution, how that affects electricity prices and gas prices, and how that affects normal gasoline cars and electric vehicles.
