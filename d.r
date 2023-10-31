@@ -6,5 +6,10 @@ energySub = read.csv("~/Documents/Github/CECS450Proj/archive/global-energy-subst
 
 # Other renewables: Primary energy consumption from other renewable (measured in terawatt-hours)
 # All energy category measured in terra-watt hours
+
 carPrice = read.csv("~/Documents/Github/CECS450Proj/archive/CarPrice_Assignment.csv")
 
+energyPriceNY = read.csv("~/Documents/Github/CECS450Proj/archive/energyPrice_dollars_per_million.csv")
+
+# https://catalog.data.gov/dataset/energy-prices-dollars-per-million-btu-beginning-1970
+# New York Energy Prices present retail energy price data.  Energy prices are provided by fuel types in nominal dollars per million Btu.
