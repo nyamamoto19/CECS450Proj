@@ -15,13 +15,12 @@ result <- sqldf(sql)
 graph <-ggplot(data= result,mapping = aes(x = player_height,y=pts)) + geom_point()
 print(graph)
 
-injuries = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/injuries_2010-2020.csv")
 
-draft = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/draft78.csv")
 
 install.packages("readxl")
 library("readxl")
-champ <- read_excel("/Users/yamahon/Desktop/CECS450Proj/archive/NBAFinalsandMVP.xlsx")
+prices = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/CarPrice_Assignment.csv")
+energy = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/global-energy-substitution.csv")
 sql <- "SELECT year, NBAChampion
         FROM champ
         WHERE NBAChampion = 'Los Angeles Lakers'"
