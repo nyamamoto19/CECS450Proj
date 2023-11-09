@@ -13,3 +13,14 @@ energyPriceNY = read.csv("~/Documents/Github/CECS450Proj/archive/energyPrice_dol
 
 # https://catalog.data.gov/dataset/energy-prices-dollars-per-million-btu-beginning-1970
 # New York Energy Prices present retail energy price data.  Energy prices are provided by fuel types in nominal dollars per million Btu.
+
+energy = read.csv("~/Documents/Github/CECS450Proj/archive/energy.csv")
+
+library(ggplot2)
+library(sqldf)
+sql <- "SELECT *
+        FROM energy
+        WHERE commodity_transaction LIKE '%Total energy supply%'"
+totalEnergySupply <- sqldf(sql)
+
+graph <- ggplot(data = totalEnergySupply, mapping = aes(x = year)) + geom_line(aes(y = output))
