@@ -20,7 +20,14 @@ library(ggplot2)
 library(sqldf)
 sql <- "SELECT *
         FROM energy
-        WHERE commodity_transaction LIKE '%Total energy supply%'"
-totalEnergySupply <- sqldf(sql)
+        WHERE commodity_transaction LIKE '%Total energy supply%'
+        AND unit LIKE '%Terajoules%'"
+totalEnergySupplyTerra <- sqldf(sql)
 
-graph <- ggplot(data = totalEnergySupply, mapping = aes(x = year)) + geom_line(aes(y = output))
+graph <- ggplot(data = totalEnergySupplyTerra, mapping = aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line()
+
+print(graph)
+
+totalEnergySupplyTerra %>%
+  filter(commodity_transaction != 'Natural gas (including LNG) - total energy supply') %>%
+  ggplot( aes(x = 'year', y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line()
