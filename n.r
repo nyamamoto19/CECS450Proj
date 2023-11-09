@@ -12,8 +12,16 @@ result <- sqldf(sql)
 print(result)
 
 graph <-ggplot(result,aes(x = year,y=price))
-graph + geom_bar(stat='identity')
+graph <- graph + geom_line(stat='identity') +ylim(20000,35000) + geom_point(stat='identity') +ylim(20000,35000) 
 print(graph)
 
 
 energy = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/energy.csv")
+sql <- "SELECT year,quantity
+        FROM energy
+        WHERE commodity_transaction = 'Gas Oil/ Diesel Oil - Consumption by transport'"
+result <- sqldf(sql)  
+print(result)
+graph <-ggplot(result,aes(x = year,y=quantity))
+graph <- graph + geom_line(stat='identity') + geom_point(stat='identity') +xlim(2010,2014)
+print(graph)
