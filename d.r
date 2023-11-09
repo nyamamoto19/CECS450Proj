@@ -18,16 +18,19 @@ energy = read.csv("~/Documents/Github/CECS450Proj/archive/energy.csv")
 
 library(ggplot2)
 library(sqldf)
+library(dplyr)
 sql <- "SELECT *
         FROM energy
         WHERE commodity_transaction LIKE '%Total energy supply%'
         AND unit LIKE '%Terajoules%'"
 totalEnergySupplyTerra <- sqldf(sql)
 
-graph <- ggplot(data = totalEnergySupplyTerra, mapping = aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line()
+graph <- ggplot(data = totalEnergySupplyTerra, mapping = aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line() + labs(y = 'Quantity (TerraJoules', x = 'Year', color = 'Type of Energy', title = 'Type of Energy over time')
 
 print(graph)
 
-totalEnergySupplyTerra %>%
+graph_removed <-totalEnergySupplyTerra %>%
   filter(commodity_transaction != 'Natural gas (including LNG) - total energy supply') %>%
-  ggplot( aes(x = 'year', y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line()
+  ggplot( aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line() + labs(y = 'Quantity (TerraJoules)', x = 'Year', color = 'Type of Energy', title = 'Type of Energy (except Natural Gas) over time')
+
+print(graph_removed)
