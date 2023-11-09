@@ -12,7 +12,7 @@ result <- sqldf(sql)
 print(result)
 
 graph <-ggplot(result,aes(x = year,y=price))
-graph <- graph + geom_line(stat='identity') +ylim(20000,35000) + geom_point(stat='identity') +ylim(20000,35000) 
+graph <- graph + geom_line(stat='identity')+xlim(2010,2014) +ylim(20000,35000) + geom_point(stat='identity') +ylim(20000,35000)
 print(graph)
 
 
@@ -24,4 +24,18 @@ result <- sqldf(sql)
 print(result)
 graph <-ggplot(result,aes(x = year,y=quantity))
 graph <- graph + geom_line(stat='identity') + geom_point(stat='identity') +xlim(2010,2014)
+print(graph)
+
+elec = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/elecvehicle.csv")
+
+elecgraph <- ggplot(elec,aes(x=Year,y=averageprice)) +geom_line(stat = 'identity') + geom_point(stat='identity')
+print(elecgraph)
+
+sql <- "SELECT year,quantity
+        FROM energy
+        WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, autoproducer'"
+result <- sqldf(sql)  
+print(result)
+graph <-ggplot(result,aes(x = year,y=quantity))
+graph <- graph + geom_line(stat='identity') + geom_point(stat='identity')
 print(graph)
