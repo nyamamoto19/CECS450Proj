@@ -16,6 +16,7 @@ energyPriceNY = read.csv("~/Documents/Github/CECS450Proj/archive/energyPrice_dol
 
 energy = read.csv("~/Documents/Github/CECS450Proj/archive/energy.csv")
 
+options(scipen = 999)
 library(ggplot2)
 library(sqldf)
 library(dplyr)
@@ -25,12 +26,13 @@ sql <- "SELECT *
         AND unit LIKE '%Terajoules%'"
 totalEnergySupplyTerra <- sqldf(sql)
 
-graph <- ggplot(data = totalEnergySupplyTerra, mapping = aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line() + labs(y = 'Quantity (TerraJoules', x = 'Year', color = 'Type of Energy', title = 'Type of Energy over time')
+graph <- ggplot(data = totalEnergySupplyTerra, mapping = aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line() + labs(y = 'Quantity (TerraJoules)', x = 'Year', color = 'Type of Energy', title = 'Type of Energy over time') + scale_y_continuous(labels = scales::comma)
 
 print(graph)
 
 graph_removed <-totalEnergySupplyTerra %>%
   filter(commodity_transaction != 'Natural gas (including LNG) - total energy supply') %>%
-  ggplot( aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line() + labs(y = 'Quantity (TerraJoules)', x = 'Year', color = 'Type of Energy', title = 'Type of Energy (except Natural Gas) over time')
+  ggplot( aes(x = year, y = quantity, color = commodity_transaction, group = commodity_transaction)) + geom_point() + geom_line() + labs(y = 'Quantity (TerraJoules)', x = 'Year', color = 'Type of Energy', title = 'Type of Energy (except Natural Gas) over time') + scale_y_continuous(labels = scales::comma)
 
 print(graph_removed)
+
