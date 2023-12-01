@@ -2,15 +2,19 @@ install.packages("sqldf")
 install.packages("readxl")
 install.packages("ggthemes")
 install.packages("extrafont")
+install.packages("showtext")
 library("readxl")
 library("sqldf")
 library("ggplot2")
 library("ggthemes")
 library("extrafont")
+library("showtext")
+font_import()
+warning
 
-prices = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/car_prices.csv")
 #gas in general
 en = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/global-energy-substitution.csv")
+en = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/global-energy-substitution.csv")
 sql <- "SELECT Year,Gas
         FROM en"
 result <- sqldf(sql)  
@@ -24,6 +28,8 @@ graph <- ggplot(result, aes(x = Year,y=Gas )) + geom_line() + geom_point()+
 print(graph)
 
 #gas car avg prices
+prices = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/car_prices.csv")
+prices = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/car_prices.csv")
 sql <- "SELECT year,AVG(price) as price
         FROM prices
         GROUP BY year"
@@ -41,6 +47,7 @@ print(graph)
 
 #gas by transportation usage
 energy = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/energy.csv")
+energy = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/energy.csv")
 sql <- "SELECT year,quantity
         FROM energy
         WHERE commodity_transaction = 'Gas Oil/ Diesel Oil - Consumption by transport'"
@@ -59,6 +66,7 @@ print(graph)
 
 #elec car prices
 elec = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/elecvehicle.csv")
+elec = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/elecvehicle.csv")
 
 elecgraph <- ggplot(elec,aes(x=Year,y=averageprice)) +
   geom_line(stat = 'identity') + 
@@ -85,7 +93,6 @@ graph <- graph + geom_line(stat='identity') +
   theme_wsj()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
-fonts()
 
 #Both car prices
 sql <- "SELECT year as Year,AVG(price) as averageprice
@@ -93,7 +100,7 @@ sql <- "SELECT year as Year,AVG(price) as averageprice
         GROUP BY year"
 result <- sqldf(sql)  
 
-graph <-  ggplot(elec,aes(x=Year,y=averageprice)) +
+graph <-  ggplot(elec,aes(x=Year,y=averageprice,)) +
   geom_line(data = result) + 
   geom_line(data = elec) + 
   geom_point(data = result) + 
@@ -102,3 +109,23 @@ graph <-  ggplot(elec,aes(x=Year,y=averageprice)) +
   
 
 print(graph)
+
+#cpu usage
+cpu = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/cpuOwn.csv")
+font_add(family = "Consolas", regular = "Consola.ttf")
+showtext_auto()
+graph <- ggplot(cpu,aes(x=factor(Year),y=Percent,group = Year))+
+  geom_bar(stat="identity",fill="#60DB46")+
+  geom_text(aes(label = Percent), vjust = -1, color = "#60DB46")+
+  labs(title = "Percentage of Households that Owned a Computer",
+       x = "Percentage",
+       y = "Year")+
+  theme_minimal()+
+  theme(plot.background = element_rect(fill = "black"),
+        plot.title = element_text(color = "#60DB46"),
+        panel.grid.major = element_line(color = "black"),  
+        axis.line = element_line(color = "#60DB46"),
+        axis.title = element_text(color = "#60DB46"),
+        text = element_text(family = "Consolas"))
+print(graph)
+
