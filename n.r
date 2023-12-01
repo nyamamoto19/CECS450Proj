@@ -9,7 +9,21 @@ library("ggthemes")
 library("extrafont")
 
 prices = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/car_prices.csv")
-energy = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/global-energy-substitution.csv")
+#gas in general
+en = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/global-energy-substitution.csv")
+sql <- "SELECT Year,Gas
+        FROM en"
+result <- sqldf(sql)  
+graph <- ggplot(result, aes(x = Year,y=Gas )) + geom_line() + geom_point()+
+  labs(y = "Quantity (Terawatt-Hours)",
+       x = "Year",
+       title = "Gas Usage per Year in America",
+       subtitle = "General Usage")+
+  theme_wsj()+
+  theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
+print(graph)
+
+#gas car avg prices
 sql <- "SELECT year,AVG(price) as price
         FROM prices
         GROUP BY year"
@@ -17,15 +31,15 @@ result <- sqldf(sql)
 print(result)
 
 graph <-ggplot(result,aes(x = year,y=price))
-graph <- graph + geom_line(stat='identity')+xlim(2010,2014) +ylim(20000,35000) + geom_point(stat='identity') +ylim(20000,35000)+
+graph <- graph + geom_line(stat='identity')+ylim(20000,35000) + geom_point(stat='identity') +ylim(20000,35000)+
 labs(y = "Price",
      x = "Year",
      title = "Average Gas Car Cost per Year")+
-  theme_wsj()+
+  theme_economist()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
 
-
+#gas by transportation usage
 energy = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/energy.csv")
 sql <- "SELECT year,quantity
         FROM energy
@@ -43,6 +57,7 @@ graph <- graph + geom_line(stat='identity') + geom_point(stat='identity') +
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
 
+#elec car prices
 elec = read.csv("/Users/yamahon/Desktop/CECS450Proj/archive/elecvehicle.csv")
 
 elecgraph <- ggplot(elec,aes(x=Year,y=averageprice)) +
@@ -51,10 +66,11 @@ elecgraph <- ggplot(elec,aes(x=Year,y=averageprice)) +
   labs(y = "Average Car Price",
        x = "Year",
        title = "Average Electric Car Price per Year")+
-  theme_wsj()+
+  theme_economist()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(elecgraph)
 
+#electricity usage
 sql <- "SELECT year,quantity
         FROM energy
         WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, autoproducer'"
@@ -80,7 +96,9 @@ result <- sqldf(sql)
 graph <-  ggplot(elec,aes(x=Year,y=averageprice)) +
   geom_line(data = result) + 
   geom_line(data = elec) + 
+  geom_point(data = result) + 
+  geom_point(data = elec) + 
   xlim(2010,2018)
+  
 
 print(graph)
-
