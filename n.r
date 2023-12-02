@@ -71,6 +71,7 @@ elec = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/elecvehicle.csv")
 elecgraph <- ggplot(elec,aes(x=Year,y=averageprice)) +
   geom_line(stat = 'identity') + 
   geom_point(stat='identity') + 
+  xlim(2010,2014)+
   labs(y = "Average Car Price",
        x = "Year",
        title = "Average Electric Car Price per Year")+
@@ -93,6 +94,24 @@ graph <- graph + geom_line(stat='identity') +
   theme_wsj()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
+
+#electricity usage small
+sql <- "SELECT year,quantity
+        FROM energy
+        WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, autoproducer'"
+result <- sqldf(sql)  
+print(result)
+graph <-ggplot(result,aes(x = year,y=quantity))
+graph <- graph + geom_line(stat='identity') + 
+  geom_point(stat='identity') + 
+  xlim(2010,2014)+
+  labs(y = "Quantity (Kilowatts-thousands)",
+       x = "Year",
+       title = "Electric Usage per Year in America")+
+  theme_wsj()+
+  theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
+print(graph)
+
 
 #Both car prices
 sql <- "SELECT year as Year,AVG(price) as averageprice
