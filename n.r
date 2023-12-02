@@ -111,11 +111,17 @@ graph <-  ggplot(elec,aes(x=Year,y=averageprice,)) +
 print(graph)
 
 #cpu usage
+sql <- "SELECT Year, Percent
+        FROM cpu
+        WHERE Year BETWEEN 1997 AND 2000"
+result <- sqldf(sql)  
 cpu = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/cpuOwn.csv")
 font_add(family = "Consolas", regular = "Consola.ttf")
 showtext_auto()
+
 graph <- ggplot(cpu,aes(x=factor(Year),y=Percent,group = Year))+
-  geom_bar(stat="identity",fill="#60DB46")+
+  geom_bar(stat="identity")+
+  geom_bar(data=result,stat="identity",fill = "#60DB46")+
   geom_text(aes(label = Percent), vjust = -1, color = "#60DB46")+
   labs(title = "Percentage of Households that Owned a Computer",
        y = "Percentage",
@@ -180,4 +186,22 @@ graph <- ggplot(result,aes(x = Year, y = Users))+
         axis.title = element_text(color = "#60DB46"),
         text = element_text(family = "Consolas"))
   
+print(graph)
+
+
+#elec price
+elecpri = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/elecprices.csv")
+graph <- ggplot(elecpri,aes(x=factor(Year),y=Price,group = Year))+
+  geom_bar(stat="identity",color="black",fill="#669966")+
+  geom_text(aes(label= Price), vjust = -1, color = "black")+
+  labs(title = "Price of Electricity",
+       y = "Price (cents per kilowatt-hour)",
+       x = "Year")+
+  theme_minimal()+
+  theme(plot.background = element_rect(fill = "#FFFF99"),
+        plot.title = element_text(color = "black"),
+        panel.grid.major = element_line(color = "#FFFF99"),  
+        axis.line = element_line(color = "black"),
+        axis.title = element_text(color = "black"),
+        text = element_text(family = "Consolas"))
 print(graph)
