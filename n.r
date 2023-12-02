@@ -118,8 +118,8 @@ graph <- ggplot(cpu,aes(x=factor(Year),y=Percent,group = Year))+
   geom_bar(stat="identity",fill="#60DB46")+
   geom_text(aes(label = Percent), vjust = -1, color = "#60DB46")+
   labs(title = "Percentage of Households that Owned a Computer",
-       x = "Percentage",
-       y = "Year")+
+       y = "Percentage",
+       x = "Year")+
   theme_minimal()+
   theme(plot.background = element_rect(fill = "black"),
         plot.title = element_text(color = "#60DB46"),
@@ -129,3 +129,55 @@ graph <- ggplot(cpu,aes(x=factor(Year),y=Percent,group = Year))+
         text = element_text(family = "Consolas"))
 print(graph)
 
+#cpu growth
+sql <- "SELECT Year, Percent
+        FROM cpu
+        WHERE Year BETWEEN 1997 AND 2001"
+result <- sqldf(sql)  
+graph <- ggplot(cpu,aes(x=Year,y=Percent))+
+  geom_line(stat = "identity",color = "#60DB46")+
+  geom_point(data = result,stat = "identity",color = "#60DB46")+
+  geom_text(data = result,aes(label = Percent), hjust = -.5, color = "#60DB46")+
+  labs(title = "Percentage of Households that Owned a Computer",
+       y = "Percentage",
+       x = "Year")+
+  theme_minimal()+
+  theme(plot.background = element_rect(fill = "black"),
+        plot.title = element_text(color = "#60DB46"),
+        panel.grid.major = element_line(color = "black"),
+        panel.grid.minor = element_line(color = "black"),
+        axis.line = element_line(color = "#60DB46"),
+        axis.title = element_text(color = "#60DB46"),
+        text = element_text(family = "Consolas"))
+print(graph)
+
+#internet usage
+internet = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/number-of-internet-users.csv")
+
+sql <- "SELECT Year, NumberofInternetusers as Users
+        FROM internet
+        WHERE Code = 'USA'"
+result <- sqldf(sql)  
+print(result)
+sql2 <- "SELECT Year, NumberofInternetusers as Users
+        FROM internet
+        WHERE( (Code = 'USA') AND (Year BETWEEN 1997 AND 2001) )"
+result2 <- sqldf(sql2) 
+print(result2)
+graph <- ggplot(result,aes(x = Year, y = Users))+
+  geom_line(stat = "identity",color = "#60DB46")+
+  geom_point(data=result2,color = "#60DB46")+
+  geom_text(data =result2,aes(label = Users), hjust = -.2, color = "#60DB46")+
+  labs(y = "Users",
+       x = "Year",
+       title = "Number of People That Use the Internet")+
+  theme_minimal()+
+  theme(plot.background = element_rect(fill = "black"),
+        plot.title = element_text(color = "#60DB46"),
+        panel.grid.major = element_line(color = "black"),
+        panel.grid.minor = element_line(color = "black"),
+        axis.line = element_line(color = "#60DB46"),
+        axis.title = element_text(color = "#60DB46"),
+        text = element_text(family = "Consolas"))
+  
+print(graph)
