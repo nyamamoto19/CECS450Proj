@@ -217,9 +217,9 @@ graph <- ggplot(elecpri,aes(x=factor(Year),y=Price,group = Year))+
        y = "Price (cents per kilowatt-hour)",
        x = "Year")+
   theme_minimal()+
-  theme(plot.background = element_rect(fill = "#FFFF99"),
+  theme(plot.background = element_rect(fill = "#FFFEC6"),
         plot.title = element_text(color = "black"),
-        panel.grid.major = element_line(color = "#FFFF99"),  
+        panel.grid.major = element_line(color = "#FFFEC6"),  
         axis.line = element_line(color = "black"),
         axis.title = element_text(color = "black"),
         text = element_text(family = "Consolas"))
