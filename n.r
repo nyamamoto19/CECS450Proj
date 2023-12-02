@@ -205,3 +205,34 @@ graph <- ggplot(elecpri,aes(x=factor(Year),y=Price,group = Year))+
         axis.title = element_text(color = "black"),
         text = element_text(family = "Consolas"))
 print(graph)
+
+
+#Electricity Price Comparision
+comp = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/ElecPriceComp.csv")
+sql <- "SELECT TimePeriod,Era,Price
+        FROM comp
+        WHERE Era='1990-2000'"
+result <- sqldf(sql)  
+
+sql2 <- "SELECT TimePeriod,Era,Price
+        FROM comp
+        WHERE Era='2000-2020'"
+result2 <- sqldf(sql2)  
+
+graph <- ggplot(comp, aes(x=TimePeriod,y=Price,fill=Era))+
+  geom_bar(stat="identity",position = "dodge")+
+  geom_text(data=result,aes(label= Price),vjust=-1,hjust = +2.5, color = "black")+
+  geom_text(data=result2,aes(label= Price),vjust=-1,hjust = -1, color = "black")+
+  scale_fill_manual(values = c("#1047AB","#AB1017"))+
+  labs(title = "Price Comparison",
+       y = "Price (US Dollars)",
+       x = "Time Frame")+
+  theme_minimal()+
+  theme(plot.background = element_rect(fill = "#FFFEC6"),
+        plot.title = element_text(color = "black"),
+        panel.grid.major = element_line(color = "#FFFEC6"),  
+        axis.line = element_line(color = "black"),
+        axis.title = element_text(color = "black"),
+        text = element_text(family = "Consolas"))
+
+print(graph)
