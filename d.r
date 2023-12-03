@@ -1,4 +1,4 @@
-energySub = read.csv("~/Documents/Github/CECS450Proj/archive/global-energy-substitution.csv")
+energySub = read.csv("archive/global-energy-substitution.csv")
 
 # Data presents primary energy consumption via 'substitution method'
 # Substitution method attempts to correct for the energy inefficiencies (energy wasted as heat during combustion) in fossil fuel and biomass conversion.  
@@ -7,14 +7,14 @@ energySub = read.csv("~/Documents/Github/CECS450Proj/archive/global-energy-subst
 # Other renewables: Primary energy consumption from other renewable (measured in terawatt-hours)
 # All energy category measured in terra-watt hours
 
-carPrice = read.csv("~/Documents/Github/CECS450Proj/archive/CarPrice_Assignment.csv")
+carPrice = read.csv("archive/CarPrice_Assignment.csv")
 
-energyPriceNY = read.csv("~/Documents/Github/CECS450Proj/archive/energyPrice_dollars_per_million.csv")
+energyPriceNY = read.csv("archive/energyPrice_dollars_per_million.csv")
 
 # https://catalog.data.gov/dataset/energy-prices-dollars-per-million-btu-beginning-1970
 # New York Energy Prices present retail energy price data.  Energy prices are provided by fuel types in nominal dollars per million Btu.
 
-energy = read.csv("~/Documents/Github/CECS450Proj/archive/energy.csv")
+energy = read.csv("archive/energy.csv")
 
 options(scipen = 999)
 library(ggplot2)
@@ -36,3 +36,8 @@ graph_removed <-totalEnergySupplyTerra %>%
 
 print(graph_removed)
 
+intelCPU = read.csv("archive/Intel_CPUs.csv")
+gpu = read.csv("archive/ALL_GPUs.csv")
+
+gpuGraph <- ggplot(data = gpu, mapping = aes(x = Release_Date, y = Memory)) + geom_line() + geom_point()
+print(gpuGraph)
