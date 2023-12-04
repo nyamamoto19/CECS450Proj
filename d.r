@@ -20,6 +20,7 @@ options(scipen = 999)
 library(ggplot2)
 library(sqldf)
 library(dplyr)
+library(stringr)
 sql <- "SELECT *
         FROM energy
         WHERE commodity_transaction LIKE '%Total energy supply%'
@@ -44,6 +45,5 @@ sql <- "SELECT Max_power, Release_Date
         From gpu
         WHERE Max_power <> '' AND Release_Date <> 'Unknown Release Date'"
 
-gpuCleaned <- gpu %>% filter(Max_Power != '') %>% filter(Release_Date != 'Unknown Release Date')
-
-
+# Remove rows where max_power is null and removed rows with release_date that states "Unknown Release Date"
+gpuCleaned <- gpu %>% filter(Max_Power != '') %>% filter(!str_detect(Release_Date, "Unknown Release Date"))
