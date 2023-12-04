@@ -37,7 +37,13 @@ graph_removed <-totalEnergySupplyTerra %>%
 print(graph_removed)
 
 intelCPU = read.csv("archive/Intel_CPUs.csv")
+# https://www.kaggle.com/datasets/iliassekkaf/computerparts/
 gpu = read.csv("archive/ALL_GPUs.csv")
+# https://www.kaggle.com/datasets/iliassekkaf/computerparts/
+sql <- "SELECT Max_power, Release_Date
+        From gpu
+        WHERE Max_power <> '' AND Release_Date <> 'Unknown Release Date'"
 
-gpuGraph <- ggplot(data = gpu, mapping = aes(x = Release_Date, y = Memory)) + geom_line() + geom_point()
-print(gpuGraph)
+gpuCleaned <- gpu %>% filter(Max_Power != '') %>% filter(Release_Date != 'Unknown Release Date')
+
+
