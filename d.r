@@ -54,3 +54,16 @@ gpuCleaned$Release_Date <- anydate(gpuCleaned$Release_Date)
 
 gpuGraph <- gpuCleaned %>% ggplot(aes(x = Release_Date, y = Max_Power)) + geom_point() + labs(y = 'Max Power of GPU (Watts)', x = 'Release Date', title = 'GPU Max Power over time')
 print(gpuGraph)
+
+chipData = read.csv("archive/chip_dataset.csv")
+# https://www.kaggle.com/datasets/michaelbryantds/cpu-and-gpu-product-data
+
+# TDP = Thermal design power.  Tells the maximum heat a computer chip can use in watts.  More watts = more performance but more power consumption
+# Filter type to CPU
+cpuData <- chipData %>% filter(Type == "CPU")
+# Convert release date to date object instead of char
+cpuData$Release.Date <- anydate(cpuData$Release.Date)
+cpuGraph <- cpuData %>% ggplot(aes(x = Release.Date, y = TDP..W.)) + geom_point() + labs(y = 'TDP (watts)', x = 'Release Date', title = "CPU TDP over time")
+print(cpuGraph)
+
+
