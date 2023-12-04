@@ -21,6 +21,7 @@ library(ggplot2)
 library(sqldf)
 library(dplyr)
 library(stringr)
+library(anytime)
 sql <- "SELECT *
         FROM energy
         WHERE commodity_transaction LIKE '%Total energy supply%'
@@ -41,9 +42,15 @@ intelCPU = read.csv("archive/Intel_CPUs.csv")
 # https://www.kaggle.com/datasets/iliassekkaf/computerparts/
 gpu = read.csv("archive/ALL_GPUs.csv")
 # https://www.kaggle.com/datasets/iliassekkaf/computerparts/
-sql <- "SELECT Max_power, Release_Date
-        From gpu
-        WHERE Max_power <> '' AND Release_Date <> 'Unknown Release Date'"
 
 # Remove rows where max_power is null and removed rows with release_date that states "Unknown Release Date"
 gpuCleaned <- gpu %>% filter(Max_Power != '') %>% filter(!str_detect(Release_Date, "Unknown Release Date"))
+# Remove the words "watts" in Max_Power column
+gpuCleaned <- gpuCleaned %>% mutate(Max_Power = str_remove_all(Max_Power, " Watts"))
+# Convert the Max_power column to numeric
+gpuCleaned <- transform(gpuCleaned, Max_Power = as.numeric(Max_Power))
+# Convert the Release_Date column to date class instead of char class
+gpuCleaned$Release_Date <- anydate(gpuCleaned$Release_Date)
+
+gpuGraph <- gpuCleaned %>% ggplot(aes(x = Release_Date, y = Max_Power)) + geom_point() + labs(y = 'Max Power of GPU (Watts)', x = 'Release Date', title = 'GPU Max Power over time')
+print(gpuGraph)
