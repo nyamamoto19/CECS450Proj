@@ -1,3 +1,9 @@
+options(scipen = 999)
+library(ggplot2)
+library(sqldf)
+library(dplyr)
+library(stringr)
+library(anytime)
 energySub = read.csv("archive/global-energy-substitution.csv")
 
 # Data presents primary energy consumption via 'substitution method'
@@ -7,6 +13,7 @@ energySub = read.csv("archive/global-energy-substitution.csv")
 # Other renewables: Primary energy consumption from other renewable (measured in terawatt-hours)
 # All energy category measured in terra-watt hours
 
+
 carPrice = read.csv("archive/CarPrice_Assignment.csv")
 
 energyPriceNY = read.csv("archive/energyPrice_dollars_per_million.csv")
@@ -15,13 +22,13 @@ energyPriceNY = read.csv("archive/energyPrice_dollars_per_million.csv")
 # New York Energy Prices present retail energy price data.  Energy prices are provided by fuel types in nominal dollars per million Btu.
 
 energy = read.csv("archive/energy.csv")
+sql2 <- "SELECT year,quantity
+        FROM energy
+        WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, main activity & autoproducer'"
+totalEnergy <- sqldf(sql2)
+totalEnergyGraph <- ggplot(totalEnergy, aes(x = year, y = quantity)) + geom_line()
+print(totalEnergyGraph)
 
-options(scipen = 999)
-library(ggplot2)
-library(sqldf)
-library(dplyr)
-library(stringr)
-library(anytime)
 sql <- "SELECT *
         FROM energy
         WHERE commodity_transaction LIKE '%Total energy supply%'
