@@ -160,7 +160,7 @@ sql <- "SELECT Year, Percent
         WHERE Year BETWEEN 1997 AND 2001"
 result <- sqldf(sql)  
 graph <- ggplot(cpu,aes(x=Year,y=Percent))+
-  geom_line(stat = "identity",color = "#60DB46")+
+  geom_line(stat = "identity",color = "#60DB46",size=1.3)+
   geom_point(data = result,stat = "identity",color = "#60DB46")+
   geom_text(data = result,aes(label = Percent), hjust = -.5, color = "#60DB46")+
   labs(title = "Percentage of Households that Owned a Computer",
@@ -190,7 +190,7 @@ sql2 <- "SELECT Year, NumberofInternetusers as Users
 result2 <- sqldf(sql2) 
 print(result2)
 graph <- ggplot(result,aes(x = Year, y = Users))+
-  geom_line(stat = "identity",color = "#60DB46")+
+  geom_line(stat = "identity",color = "#60DB46",size = 1.3)+
   geom_point(data=result2,color = "#60DB46")+
   geom_text(data =result2,aes(label = Users), hjust = -.2, color = "#60DB46")+
   labs(y = "Users",
