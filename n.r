@@ -36,11 +36,11 @@ sql <- "SELECT year,AVG(price) as price
 result <- sqldf(sql)  
 print(result)
 
-graph <-ggplot(result,aes(x = year,y=price))
-graph <- graph + geom_line(stat='identity')+ylim(20000,35000) + geom_point(stat='identity') +ylim(20000,35000)+
-labs(y = "Price",
-     x = "Year",
-     title = "Average Gas Car Cost per Year")+
+graph <-ggplot(result,aes(x = year,y=price)+
+  geom_line(stat='identity')+ylim(20000,35000) + geom_point(stat='identity') +ylim(20000,35000)+
+  labs(y = "Price",
+       x = "Year",
+       title = "Average Gas Car Cost per Year")+
   theme_economist()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
@@ -53,8 +53,8 @@ sql <- "SELECT year,quantity
         WHERE commodity_transaction = 'Gas Oil/ Diesel Oil - Consumption by transport'"
 result <- sqldf(sql)  
 print(result)
-graph <-ggplot(result,aes(x = year,y=quantity))
-graph <- graph + geom_line(stat='identity') + geom_point(stat='identity') +
+graph <-ggplot(result,aes(x = year,y=quantity))+ 
+  geom_line(stat='identity') + geom_point(stat='identity') +
   xlim(2010,2014)+
   labs(y = "Quantity (Metric Tons-thousands)",
        x = "Year",
@@ -85,12 +85,13 @@ sql <- "SELECT year,quantity
         WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, autoproducer'"
 result <- sqldf(sql)  
 print(result)
-graph <-ggplot(result,aes(x = year,y=quantity))
-graph <- graph + geom_line(stat='identity') + 
+graph <-ggplot(result,aes(x = year,y=quantity))+ 
+  geom_line(stat='identity') + 
   geom_point(stat='identity') + 
   labs(y = "Quantity (Kilowatts-thousands)",
        x = "Year",
-       title = "Electric Usage per Year in America")+
+       title = "Electric Usage per Year in America",
+       subtitle = "Autoproduction")+
   theme_wsj()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
@@ -101,13 +102,14 @@ sql <- "SELECT year,quantity
         WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, autoproducer'"
 result <- sqldf(sql)  
 print(result)
-graph <-ggplot(result,aes(x = year,y=quantity))
-graph <- graph + geom_line(stat='identity') + 
+graph <-ggplot(result,aes(x = year,y=quantity))+ 
+  geom_line(stat='identity') + 
   geom_point(stat='identity') + 
   xlim(2010,2014)+
   labs(y = "Quantity (Kilowatts-thousands)",
        x = "Year",
-       title = "Electric Usage per Year in America")+
+       title = "Electric Usage per Year in America",
+       subtitle = "Autoproduction")+
   theme_wsj()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
@@ -254,4 +256,39 @@ graph <- ggplot(comp, aes(x=TimePeriod,y=Price,fill=Era))+
         axis.title = element_text(color = "black"),
         text = element_text(family = "Consolas"))
 
+print(graph)
+
+
+#Electricity total
+sql <- "SELECT year,quantity
+        FROM energy
+        WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, main activity & autoproducer'"
+result <- sqldf(sql)
+graph <-ggplot(result,aes(x = year,y=quantity)) + 
+  geom_line(stat='identity') + 
+  geom_point(stat='identity') + 
+  labs(y = "Quantity (Kilowatts-thousands)",
+       x = "Year",
+       title = "Electric Usage per Year in America",
+       subtitle = "Total Used")+
+  xlim(2010,2014)+
+  theme_wsj()+
+  theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
+print(graph)
+
+#Electricity scaled down
+sql <- "SELECT year,quantity
+        FROM energy
+        WHERE commodity_transaction = 'Electricity - total net installed capacity of electric power plants, main activity & autoproducer'"
+result <- sqldf(sql)
+graph <-ggplot(result,aes(x = year,y=quantity)) + 
+  geom_line(stat='identity') + 
+  geom_point(stat='identity') + 
+  labs(y = "Quantity (Kilowatts-thousands)",
+       x = "Year",
+       title = "Electric Usage per Year in America",
+       subtitle = "Total Used")+
+  xlim(2010,2014)+
+  theme_wsj()+
+  theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
 print(graph)
