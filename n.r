@@ -3,12 +3,14 @@ install.packages("readxl")
 install.packages("ggthemes")
 install.packages("extrafont")
 install.packages("showtext")
+install.packages("scales")
 library("readxl")
 library("sqldf")
 library("ggplot2")
 library("ggthemes")
 library("extrafont")
 library("showtext")
+library("scales")
 font_import()
 warning
 
@@ -291,4 +293,20 @@ graph <-ggplot(result,aes(x = year,y=quantity)) +
   xlim(2010,2014)+
   theme_wsj()+
   theme(axis.title= element_text(), text = element_text(family="Trebuchet MS"))
+print(graph)
+
+#Electric vehicle sales
+esales = read.csv("C:/Users/nicho/Desktop/CECS450Proj/archive/EVSales.csv")
+sql <- "SELECT year,value,powertrain
+        FROM esales
+        WHERE parameter = 'EV sales' AND region = 'USA'"
+result <- sqldf(sql)
+print(result)
+graph <- ggplot(result,aes(x = year,y=value,color=powertrain))+
+  geom_line(stat = 'identity',size = 1.3)+
+  scale_x_continuous(breaks= pretty_breaks())+
+  labs(title = "Electric Vehicle Sales",
+       y = "Number of Cars Sold",
+       x = "Year",
+       color = "Powertrain")
 print(graph)
